@@ -1,0 +1,37 @@
+.todos {
+  .refreshBtn {
+    margin-left: 20px;
+  }
+  .idCol {
+    width: 5%;
+  }
+  .colorCol {
+    width: 20%;
+  }
+  .buttonCol {
+    width: 25%;
+    :global(.btn) {
+      margin: 0 5px;
+    }
+  }
+  .textCol{
+    width: 30%;
+  }
+  .textCompleted {
+    text-decoration: line-through;
+    color: gray;
+  }
+  tr.saving {
+    opacity: 0.8;
+    :global(.btn) {
+      &[disabled] {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+table {
+  width: 100%;
+  margin: 20px 0 20px 0;
+}
