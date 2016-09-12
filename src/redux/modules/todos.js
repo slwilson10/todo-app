@@ -3,6 +3,8 @@ const LOAD_SUCCESS = 'redux-example/todos/LOAD_SUCCESS';
 const LOAD_FAIL = 'redux-example/todos/LOAD_FAIL';
 const EDIT_START = 'redux-example/todos/EDIT_START';
 const EDIT_STOP = 'redux-example/todos/EDIT_STOP';
+const HOVER_START = 'redux-example/todos/HOVER_START';
+const HOVER_STOP = 'redux-example/todos/HOVER_STOP';
 const SAVE = 'redux-example/todos/SAVE';
 const SAVE_SUCCESS = 'redux-example/todos/SAVE_SUCCESS';
 const SAVE_FAIL = 'redux-example/todos/SAVE_FAIL';
@@ -18,7 +20,8 @@ const initialState = {
   loaded: false,
   editing: {},
   saveError: {},
-  isEditing: false
+  isEditing: false,
+  hovering: {}
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -62,6 +65,22 @@ export default function reducer(state = initialState, action = {}) {
         },
         isEditing: false
       };
+      case HOVER_START:
+        return {
+          ...state,
+          hovering: {
+            ...state.hovering,
+            [action.id]: true
+          }
+        };
+      case HOVER_STOP:
+        return {
+          ...state,
+          hovering: {
+            ...state.hovering,
+            [action.id]: false
+          }
+        };
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
@@ -154,7 +173,7 @@ export function load() {
   };
 }
 
-export function save(todo) {
+export function handleSave(todo) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: todo.id,
@@ -184,10 +203,20 @@ export function handleDelete(todo) {
   };
 }
 
-export function editStart(id) {
+export function handleMouseOver(id) {
+  return { type: HOVER_START, id };
+}
+
+export function handleMouseLeave(id) {
+  return { type: HOVER_STOP, id };
+}
+
+export function handleEditStart(id) {
+  console.log('Editing!');
+  console.log(id);
   return { type: EDIT_START, id };
 }
 
-export function editStop(id) {
+export function handleEditStop(id) {
   return { type: EDIT_STOP, id };
 }

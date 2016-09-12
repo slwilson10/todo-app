@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import * as todoActions from 'redux/modules/todos';
 import {isLoaded, load as loadTodos} from 'redux/modules/todos';
 import {initializeWithKey} from 'redux-form';
-import { TodoForm, NewTodoForm } from 'components';
-import { asyncConnect } from 'redux-async-connect';
+import {NewTodoForm, TodoList} from 'components';
+import {asyncConnect} from 'redux-async-connect';
 import * as styles from './Todos.scss';
 
 @asyncConnect([{
@@ -22,9 +22,12 @@ import * as styles from './Todos.scss';
     editing: state.todos.editing,
     error: state.todos.error,
     loading: state.todos.loading,
-    isEditing: state.todos.isEditing
+    isEditing: state.todos.isEditing,
+    hovering: state.todos.hovering
+
   }),
   {...todoActions, initializeWithKey })
+
 export default class Todos extends Component {
   static propTypes = {
     todos: PropTypes.array,
@@ -33,18 +36,21 @@ export default class Todos extends Component {
     loading: PropTypes.bool,
     isEditing: PropTypes.bool,
     editing: PropTypes.object.isRequired,
-    editStart: PropTypes.func.isRequired,
+    hovering: PropTypes.object.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    handleMouseOver: PropTypes.func.isRequired,
+    handleMouseLeave: PropTypes.func.isRequired,
+    handleEditStart: PropTypes.func.isRequired,
+    handleEditStop: PropTypes.func.isRequired,
+    handleSave: PropTypes.func.isRequired,
     handleToggle: PropTypes.func.isRequired,
     handleDelete: PropTypes.func.isRequired
   };
 
   render() {
-    const handleEdit = (todo) => {
-      const {editStart} = this.props; // eslint-disable-line no-shadow
-      return () => editStart(String(todo.id));
-    };
-
-    const {todos, error, editing, loading, load, isEditing, handleDelete, handleToggle} = this.props;
+    const {todos, error, editing, hovering, loading, load, handleSave,
+      isEditing, handleMouseOver, handleMouseLeave, handleDelete, handleToggle, handleEditStop,
+      handleEditStart} = this.props;
     let refreshClassName = 'fa fa-refresh';
 
     if (loading) {
@@ -58,46 +64,20 @@ export default class Todos extends Component {
           {' '}
           {error}
         </div>}
-        <table className={styles.table}>
-          <tbody>
-            <NewTodoForm />
-          </tbody>
-        </table>
         {todos && todos.length &&
-        <table className="table table-striped">
-          <tbody>
-          {
-            todos.map((todo) => editing[todo.id] ?
-              <TodoForm
-                formKey={String(todo.id)}
-                key={String(todo.id)}
-                initialValues={todo}/> :
-              <tr key={todo.id}>
-                <td className={styles.textCol}>
-                  <span
-                    className={todo.isCompleted ? styles.textCompleted : ''}
-                    onClick={() => handleToggle(todo)}>
-                    {todo.text}
-                  </span>
-                </td>
-                <td className={styles.buttonCol}>
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleEdit(todo)}
-                    disabled={isEditing}>
-                    <i className="fa fa-pencil"/> Edit
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(todo)}
-                    disabled={isEditing}>
-                    Delete
-                  </button>
-                </td>
-              </tr>)
+            <TodoList
+              todos={todos}
+              editing={editing}
+              isEditing={isEditing}
+              hovering={hovering}
+              handleSave={(todo) => handleSave(todo)}
+              handleToggle={(todo) => handleToggle(todo)}
+              handleEditStart={(todo) => handleEditStart(todo)}
+              handleEditStop={(todo) => handleEditStop(todo)}
+              handleDelete={(todo) => handleDelete(todo)}
+              handleMouseOver={(todo) => handleMouseOver(todo)}
+              handleMouseLeave={(todo) => handleMouseLeave(todo)}/>
           }
-          </tbody>
-        </table>}
       </div>
     );
   }

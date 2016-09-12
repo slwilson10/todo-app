@@ -1,11 +1,12 @@
 import React from 'react';
+import * as styles from '../../containers/Todos/Todos.scss';
 
 const renderInput = field =>
-  <div>
+  <div className={styles.textCol}>
     <input
-      className="form-control"
       {...field.input}
-      type={field.type}/>
+      type={field.type}
+      placeholder="Add Todo"/>
     {field.meta.error &&
       field.meta.touched &&
      <span className="error">{field.meta.error}</span>}
