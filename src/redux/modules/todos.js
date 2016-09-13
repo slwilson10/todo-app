@@ -212,8 +212,6 @@ export function handleMouseLeave(id) {
 }
 
 export function handleEditStart(id) {
-  console.log('Editing!');
-  console.log(id);
   return { type: EDIT_START, id };
 }
 

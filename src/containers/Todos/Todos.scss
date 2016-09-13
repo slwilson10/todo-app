@@ -3,6 +3,7 @@
     margin-left: 20px;
   }
   .idCol {
+    vertical-align:  middle;
     width: 2%;
   }
   .colorCol {
@@ -10,7 +11,9 @@
   }
   .buttonCol {
     display:inline-block;
+    padding:0.3%;
     width: 25%;
+    height:36px;
     :global(.btn) {
       margin: 0 5px;
     }
@@ -40,4 +43,10 @@
 table {
   width: 100%;
   margin: 20px 0 20px 0;
+  padding: 5px 0;
+}
+
+td {
+  text-align: left;
+  vertical-align: center;
 }

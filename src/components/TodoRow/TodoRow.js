@@ -12,28 +12,32 @@ const TodoRow = (props) => {
         onMouseOver={() => handleMouseOver(todo.id)}
         onMouseLeave={() => handleMouseLeave(todo.id)}>
         <td className={styles.idCol}>
-          <input type="checkbox" onClick={() => handleToggle(todo)}/>
+          <input type="checkbox"
+            checked={todo.isCompleted}
+            onChange={() => handleToggle(todo)}/>
         </td>
         { editing[todo.id] ?
-          <td>
+          <td className={styles.textCol}>
           <TodoForm
             formKey={String(todo.id)}
             key={String(todo.id)}
             initialValues={todo}
-            editStop={() => handleEditStop(String(todo.id))}
             onSubmit={(todo) => handleSave(todo)}/>
-            </td> :
+          </td>:
           <td className={styles.textCol}>
           <TodoItem
             todo={todo}
-            handleEditStart={() => handleEditStart(todo.id)}/>
-          <TodoButtons
-            todo={todo}
             isEditing={isEditing}
-            hovering={hovering}
-            handleDelete={() => handleDelete(todo)}/>
+            handleEditStart={() => handleEditStart(todo.id)}/>
           </td>
         }
+        <TodoButtons
+          todo={todo}
+          isEditing={isEditing}
+          editing={editing}
+          hovering={hovering}
+          handleDelete={() => handleDelete(todo)}
+          editStop={() => handleEditStop(String(todo.id))}/>
     </tr>
   );
 }

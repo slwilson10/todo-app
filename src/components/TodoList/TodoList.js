@@ -27,12 +27,20 @@ const TodoList = (props) => {
             handleMouseOver={handleMouseOver}
             handleMouseLeave={handleMouseLeave}/>
         )}
-        <NewTodoForm onSubmit={(todo) => handleSave(todo)}/>
+        <tr>
+          <td className={styles.idCol}>
+            <div className="fa fa-plus-square-o fa-lg" />
+          </td>
+          <td className={styles.textCol}>
+              <NewTodoForm onSubmit={(todo) => handleSave(todo)}/>
+          </td>
+          <td className={styles.buttonCol} />
+        </tr>
         { completedTodos.map((todo) =>
           <TodoRow
             todo={todo}
             key={todo.id}
-            editing={todo}
+            editing={editing}
             isEditing={isEditing}
             hovering={hovering}
             handleSave={handleSave}

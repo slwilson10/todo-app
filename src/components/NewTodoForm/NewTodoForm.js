@@ -8,8 +8,6 @@ const NewTodoForm = (props) => {
     const {handleSubmit, onSubmit, invalid, pristine, reset,
       submitting}= props;
     return (
-      <tr>
-      <td>
         <form onSubmit={handleSubmit((values) => {
             return onSubmit(values)
               .then(result => {
@@ -21,8 +19,6 @@ const NewTodoForm = (props) => {
         })}>
           <Field name="text" component={renderInput} type="text"/>
         </form>
-      </td>
-    </tr>
     );
 }
 

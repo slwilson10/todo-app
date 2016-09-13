@@ -4,18 +4,23 @@ import {TodoForm, NewTodoForm} from 'components';
 import * as styles from '../../containers/Todos/Todos.scss';
 
 const TodoItem = (props) => {
-    const {todo, handleEditStart}= props;
+    const {todo, isEditing, handleEditStart}= props;
     return (
-            <span
-              className={todo.isCompleted ? styles.textCompleted : ''}
-              onClick={() => handleEditStart(todo.id)}>
-              {todo.text}
-            </span>
+      <span
+        className={todo.isCompleted ? styles.textCompleted : ''}
+        onClick={() => {
+          if(!isEditing){
+            return handleEditStart(todo.id);
+          }
+        }}>
+        {todo.text}
+      </span>
   );
 }
 
 TodoItem.propTypes = {
   todo: PropTypes.object.isRequired,
+  isEditing: PropTypes.bool.isRequired,
   handleEditStart: PropTypes.func.isRequired
 }
 

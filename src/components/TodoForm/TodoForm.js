@@ -8,7 +8,7 @@ import * as todoActions from 'redux/modules/todos';
 import * as styles from '../../containers/Todos/Todos.scss';
 
 const TodoForm = (props) => {
-  const { editStop, formKey, handleSubmit, invalid,
+  const { formKey, handleSubmit, invalid,
     pristine, onSubmit, submitting } = props;
   return (
         <form onSubmit={handleSubmit((values) => {
@@ -22,18 +22,11 @@ const TodoForm = (props) => {
                   }
                 )}>
           <Field name="text" component={renderInput} type="text"/>
-          <button className="btn btn-link"
-            type="button"
-            onClick={() => editStop(formKey)}
-            disabled={submitting}>
-            <i className="fa fa-times"/>
-          </button>
         </form>
   );
 }
 
 TodoForm.propTypes = {
-  editStop: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
