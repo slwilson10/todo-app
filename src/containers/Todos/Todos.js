@@ -44,13 +44,14 @@ export default class Todos extends Component {
     handleEditStop: PropTypes.func.isRequired,
     handleSave: PropTypes.func.isRequired,
     handleToggle: PropTypes.func.isRequired,
-    handleDelete: PropTypes.func.isRequired
+    handleDelete: PropTypes.func.isRequired,
+    handleDeleteAll: PropTypes.func.isRequired
   };
 
   render() {
     const {todos, error, editing, hovering, loading, load, handleSave,
       isEditing, handleMouseOver, handleMouseLeave, handleDelete, handleToggle, handleEditStop,
-      handleEditStart} = this.props;
+      handleEditStart, handleDeleteAll} = this.props;
     let refreshClassName = 'fa fa-refresh';
 
     if (loading) {
@@ -75,6 +76,7 @@ export default class Todos extends Component {
               handleEditStart={(todo) => handleEditStart(todo)}
               handleEditStop={(todo) => handleEditStop(todo)}
               handleDelete={(todo) => handleDelete(todo)}
+              handleDeleteAll={(todos) => handleDeleteAll(todos)}
               handleMouseOver={(todo) => handleMouseOver(todo)}
               handleMouseLeave={(todo) => handleMouseLeave(todo)}/>
           }

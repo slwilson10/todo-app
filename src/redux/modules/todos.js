@@ -14,6 +14,9 @@ const TOGGLE_FAIL = 'redux-example/todos/TOGGLE_FAIL';
 const DELETE = 'redux-example/todos/DELETE';
 const DELETE_SUCCESS = 'redux-example/todos/DELETE_SUCCESS';
 const DELETE_FAIL = 'redux-example/todos/DELETE_FAIL';
+const DELETE_ALL = 'redux-example/todos/DELETE_ALL';
+const DELETE_SUCCESS_ALL = 'redux-example/todos/DELETE_SUCCESS_ALL';
+const DELETE_FAIL_ALL = 'redux-example/todos/DELETE_FAIL_ALL';
 
 
 const initialState = {
@@ -196,6 +199,16 @@ export function handleToggle(todo) {
 export function handleDelete(todo) {
   return {
     types: [DELETE, DELETE_SUCCESS, DELETE_FAIL],
+    id: todo.id,
+    promise: (client) => client.post('/todo/handleDelete', {
+      data: todo
+    })
+  };
+}
+
+export function handleDeleteAll(todos) {
+  return {
+    types: [DELETE_ALL, DELETE_ALL_SUCCESS, DELETE_ALL_FAIL],
     id: todo.id,
     promise: (client) => client.post('/todo/handleDelete', {
       data: todo

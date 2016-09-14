@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
 import {reduxForm, Field} from 'redux-form';
-import {TodoRow, NewTodoForm} from 'components';
+import {TodoRow, NewTodoRow, TodoCompletedHeader} from 'components';
 import * as styles from '../../containers/Todos/Todos.scss';
 
 const TodoList = (props) => {
     const {todos, editing, isEditing, hovering, handleSave,
       handleEditStart, handleEditStop, handleToggle, handleDelete,
-      handleMouseOver, handleMouseLeave}= props;
+      handleMouseOver, handleMouseLeave, handleDeleteAll}= props;
     const openTodos = todos.filter((t) => !t.isCompleted);
     const completedTodos = todos.filter((t) => t.isCompleted);
     return (
@@ -27,30 +27,27 @@ const TodoList = (props) => {
             handleMouseOver={handleMouseOver}
             handleMouseLeave={handleMouseLeave}/>
         )}
-        <tr>
-          <td className={styles.idCol}>
-            <div className="fa fa-plus-square-o fa-lg" />
-          </td>
-          <td className={styles.textCol}>
-              <NewTodoForm onSubmit={(todo) => handleSave(todo)}/>
-          </td>
-          <td className={styles.buttonCol} />
-        </tr>
+        <NewTodoRow handleSave={handleSave}/>
+        { completedTodos.length ?
+          <TodoCompletedHeader todos={completedTodos} handleDeleteAll={handleDeleteAll} /> : <tr /> }
         { completedTodos.map((todo) =>
-          <TodoRow
-            todo={todo}
-            key={todo.id}
-            editing={editing}
-            isEditing={isEditing}
-            hovering={hovering}
-            handleSave={handleSave}
-            handleEditStart={handleEditStart}
-            handleEditStop={handleEditStop}
-            handleToggle={handleToggle}
-            handleDelete={handleDelete}
-            handleMouseOver={handleMouseOver}
-            handleMouseLeave={handleMouseLeave}/>
-        )}
+            <TodoRow
+              todo={todo}
+              key={todo.id}
+              editing={editing}
+              isEditing={isEditing}
+              hovering={hovering}
+              handleSave={handleSave}
+              handleEditStart={handleEditStart}
+              handleEditStop={handleEditStop}
+              handleToggle={handleToggle}
+              handleDelete={handleDelete}
+              handleMouseOver={handleMouseOver}
+              handleMouseLeave={handleMouseLeave}/>
+          )}
+
+
+
       </tbody>
       </table>
     );
@@ -66,6 +63,7 @@ TodoList.propTypes = {
   handleEditStop: PropTypes.func.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
+  handleDeleteAll: PropTypes.func.isRequired,
   handleMouseOver: PropTypes.func.isRequired,
   handleMouseLeave: PropTypes.func.isRequired,
 }
