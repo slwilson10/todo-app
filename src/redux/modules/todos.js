@@ -15,8 +15,8 @@ const DELETE = 'redux-example/todos/DELETE';
 const DELETE_SUCCESS = 'redux-example/todos/DELETE_SUCCESS';
 const DELETE_FAIL = 'redux-example/todos/DELETE_FAIL';
 const DELETE_ALL = 'redux-example/todos/DELETE_ALL';
-const DELETE_SUCCESS_ALL = 'redux-example/todos/DELETE_SUCCESS_ALL';
-const DELETE_FAIL_ALL = 'redux-example/todos/DELETE_FAIL_ALL';
+const DELETE_ALL_SUCCESS = 'redux-example/todos/DELETE_SUCCESS_ALL';
+const DELETE_ALL_FAIL = 'redux-example/todos/DELETE_FAIL_ALL';
 
 
 const initialState = {
@@ -145,9 +145,7 @@ export default function reducer(state = initialState, action = {}) {
     case DELETE:
       return state;
     case DELETE_SUCCESS:
-      // const deleteData = [...state.data];
       const deleteData = [...state.data].filter(todo => todo.id !== action.result.id);
-      // deleteData[action.result.id] = action.result;
       return {
         ...state,
         data: deleteData
@@ -160,6 +158,22 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: action.error
         }
       } : state;
+      case DELETE_ALL:
+        return state;
+      case DELETE_ALL_SUCCESS:
+        const deleteAllData = [...state.data].filter(todo => todo.isCompleted === false);
+        return {
+          ...state,
+          data: deleteAllData
+        };
+      case DELETE_ALL_FAIL:
+        return typeof action.error === 'string' ? {
+          ...state,
+          saveError: {
+            ...state.saveError,
+            [action.id]: action.error
+          }
+        } : state;
     default:
       return state;
   }
@@ -209,9 +223,8 @@ export function handleDelete(todo) {
 export function handleDeleteAll(todos) {
   return {
     types: [DELETE_ALL, DELETE_ALL_SUCCESS, DELETE_ALL_FAIL],
-    id: todo.id,
-    promise: (client) => client.post('/todo/handleDelete', {
-      data: todo
+    promise: (client) => client.post('/todo/handleDeleteAll', {
+      data: todos
     })
   };
 }

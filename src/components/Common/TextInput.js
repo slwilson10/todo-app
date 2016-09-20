@@ -7,7 +7,8 @@ const renderInput = field =>
       {...field.input}
       type={field.type}
       placeholder="Add Todo"
-      className="form-control"/>
+      className="form-control"
+      autoComplete="off"/>
     {field.meta.error &&
       field.meta.touched &&
      <span className="error">{field.meta.error}</span>}

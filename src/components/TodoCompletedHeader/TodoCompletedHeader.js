@@ -13,7 +13,7 @@ const TodoCompletedHeader = (props) => {
         <td className={styles.buttonCol}>
           <button
               className="btn btn-link"
-              onClick={(todos) => handleDeleteAll(todos)}>
+              onClick={() => handleDeleteAll({todos})}>
               <i className="fa fa-trash-o fa-lg"/>
           </button>
         </td>
